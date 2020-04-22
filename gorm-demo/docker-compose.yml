@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ../Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      - DATABASE_URL=root:root@tcp(mysql:3306)/gorm-demo?charset=utf8&parseTime=True&loc=Local
+    volumes:
+      - .:/go/src/github.com/tabakazu/gorm-demo
+      - go_modules:/go/pkg/mod
+    stdin_open: true
+    tty: true
+
+  mysql:
+    build:
+      context: .
+      dockerfile: ./.dockerdev/mysql/Dockerfile
+    environment:
+      - MYSQL_DATABASE=gorm-demo
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  go_modules:
+  mysql_data:
