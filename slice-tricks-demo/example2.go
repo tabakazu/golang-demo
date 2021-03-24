@@ -23,15 +23,18 @@ func main() {
 	fmt.Println(x) // 200
 	fmt.Println(a) // [100 5 10000]
 
-	// Get Max Int From Slice
-	fmt.Println(getMaxIntFromSlice(a)) // 10000
+	// Get Max Value From Int Slice
+	fmt.Println(getMaxValueFromIntSlice(a)) // 10000
+
+	// Get Sum Value From Int Slice
+	fmt.Println(getSumValueFromIntSlice(a)) // 10105
 
 	// Reversing
 	reverseIntSlice(a)
 	fmt.Println(a) // [10000 5 100]
 }
 
-func getMaxIntFromSlice(slice []int) int {
+func getMaxValueFromIntSlice(slice []int) int {
 	var max int
 	for _, i := range slice {
 		if max < i {
@@ -39,6 +42,14 @@ func getMaxIntFromSlice(slice []int) int {
 		}
 	}
 	return max
+}
+
+func getSumValueFromIntSlice(slice []int) int {
+	var sum int
+	for _, i := range slice {
+		sum = sum + i
+	}
+	return sum
 }
 
 func reverseIntSlice(slice []int) {
