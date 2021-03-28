@@ -26,6 +26,9 @@ func main() {
 	// Get Max Value From Int Slice
 	fmt.Println(getMaxValueFromIntSlice(a)) // 10000
 
+	// Get Min Value From Int Slice
+	fmt.Println(getMinValueFromIntSlice(a)) // 5
+
 	// Get Sum Value From Int Slice
 	fmt.Println(getSumValueFromIntSlice(a)) // 10105
 
@@ -42,6 +45,16 @@ func getMaxValueFromIntSlice(slice []int) int {
 		}
 	}
 	return max
+}
+
+func getMinValueFromIntSlice(slice []int) int {
+	var min int = 2147483647
+	for _, i := range slice {
+		if min > i {
+			min = i
+		}
+	}
+	return min
 }
 
 func getSumValueFromIntSlice(slice []int) int {
