@@ -35,6 +35,11 @@ func main() {
 	// Reversing
 	reverseIntSlice(a)
 	fmt.Println(a) // [10000 5 100]
+
+	// Get 2 Large Values In Int Slice
+	a = append(a, []int{400, 9999, 1, 10001, 10}...)
+	fmt.Println(a)                               // [10000 5 100 400 9999 1 10001 10]
+	fmt.Println(getTwoLargeValuesIntIntSlice(a)) // [100 10000]
 }
 
 func getMaxValueFromIntSlice(slice []int) int {
@@ -48,7 +53,7 @@ func getMaxValueFromIntSlice(slice []int) int {
 }
 
 func getMinValueFromIntSlice(slice []int) int {
-	var min int = 2147483647
+	var min int = 9223372036854775807
 	for _, i := range slice {
 		if min > i {
 			min = i
@@ -70,4 +75,21 @@ func reverseIntSlice(slice []int) {
 		opp := len(slice) - 1 - i
 		slice[i], slice[opp] = slice[opp], slice[i]
 	}
+}
+
+// Slice の中で大きな 2 つの値を取得する
+func getTwoLargeValuesIntIntSlice(slice []int) []int {
+	newSlice := make([]int, 2, 2)
+	for _, v := range slice {
+		if newSlice[0] < newSlice[1] {
+			if newSlice[0] < v {
+				newSlice[0] = v
+			}
+		} else {
+			if newSlice[1] < v {
+				newSlice[1] = v
+			}
+		}
+	}
+	return newSlice
 }
