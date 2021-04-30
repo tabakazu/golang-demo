@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  go_app: &go_app
+    command: bash -c "air -c .air.toml"
+    build:
+      context: .
+      target: build
+    environment:
+      MYSQL_URL: 'root:@tcp(mysql:3306)/webapi_app_dev?charset=utf8&parseTime=True&loc=Local'
+      MYSQL_TEST_URL: 'root:@tcp(mysql:3306)/webapi_app_test?charset=utf8&parseTime=True&loc=Local'
+      GO111MODULE: 'on'
+      GOPATH: /go
+    volumes:
+      - .:/go/src/github.com/tabakazu/webapi-app
+      - go_modules:/go/pkg/mod
+    stdin_open: true
+    tty: true
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: webapi_app_dev
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  go_modules:
+  mysql_data:
