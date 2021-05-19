@@ -3,13 +3,16 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/google/wire"
-	"github.com/tabakazu/webapi-app/infra/web"
+	"github.com/tabakazu/webapi-app/adapter/rest"
 )
 
-func InitializeWebApp() *web.Server {
+func InitializeWebApp() *http.Server {
 	wire.Build(
-		web.NewServer,
+		rest.NewRouter,
+		rest.NewServer,
 	)
-	return &web.Server{}
+	return &http.Server{}
 }

@@ -6,12 +6,14 @@
 package main
 
 import (
-	"github.com/tabakazu/webapi-app/infra/web"
+	"github.com/tabakazu/webapi-app/adapter/rest"
+	"net/http"
 )
 
 // Injectors from wire.go:
 
-func InitializeWebApp() *web.Server {
-	server := web.NewServer()
+func InitializeWebApp() *http.Server {
+	router := rest.NewRouter()
+	server := rest.NewServer(router)
 	return server
 }
