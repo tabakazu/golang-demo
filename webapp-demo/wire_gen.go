@@ -13,7 +13,6 @@ import (
 // Injectors from wire.go:
 
 func InitializeWebApp() *http.Server {
-	router := rest.NewRouter()
-	server := rest.NewServer(router)
+	server := rest.NewServer()
 	return server
 }

@@ -11,7 +11,6 @@ import (
 
 func InitializeWebApp() *http.Server {
 	wire.Build(
-		rest.NewRouter,
 		rest.NewServer,
 	)
 	return &http.Server{}
