@@ -1,6 +1,12 @@
 package main
 
+import (
+	"github.com/tabakazu/webapi-app/adapter/controller/rest"
+)
+
 func main() {
-	app := InitializeWebApp()
-	app.ListenAndServe()
+	hcc := rest.NewHealthCheckController()
+	srv := rest.NewServer()
+	rest.SetupHealthCheckRoutes(srv.Router(), hcc)
+	srv.ListenAndServe()
 }
