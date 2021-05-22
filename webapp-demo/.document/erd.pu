@@ -1,0 +1,28 @@
+@startuml
+
+entity "User" as users {
+  ユーザ
+  ==
+  + id : bigint [PK]
+  --
+  family_name : varchar(255)
+  given_name : varchar(255)
+  created_at : datetime
+  updated_at : datetime
+}
+
+entity "Account" as accounts {
+  アカウント
+  ==
+  + id : bigint [PK]
+  + user_id : bigint [FK]
+  + email : varchar(255) not null
+  --
+  password_digest : varchar(255)
+  created_at : datetime
+  updated_at : datetime
+}
+
+users ||--|| accounts
+
+@enduml

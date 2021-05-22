@@ -10,7 +10,8 @@ COPY . .
 RUN apt-get update -qq && apt-get install -yq default-mysql-client
 RUN go build -o /tmp/webapi-app/app ./main.go
 RUN GO111MODULE=off go get \
-  github.com/cosmtrek/air
+  github.com/cosmtrek/air \
+  bitbucket.org/liamstask/goose/cmd/goose
 
 
 FROM debian
