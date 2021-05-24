@@ -12,3 +12,7 @@ type Routeing interface {
 func SetupHealthCheckRoutes(r Routeing, ctrl HealthCheckController) {
 	r.GET("/health_check", ctrl.CheckHandler)
 }
+
+func SetupUserAccountRoutes(r Routeing, ctrl UserAccountController) {
+	r.POST("/user_account", ctrl.RegisterHandler)
+}

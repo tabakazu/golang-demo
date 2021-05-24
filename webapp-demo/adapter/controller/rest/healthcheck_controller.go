@@ -11,11 +11,11 @@ type HealthCheckController interface {
 
 type healthCheckController struct{}
 
-func NewHealthCheckController() *healthCheckController {
+func NewHealthCheckController() HealthCheckController {
 	return &healthCheckController{}
 }
 
-func (h healthCheckController) CheckHandler(w http.ResponseWriter, r *http.Request) {
+func (ctrl healthCheckController) CheckHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"msg": "ok!"})
 }

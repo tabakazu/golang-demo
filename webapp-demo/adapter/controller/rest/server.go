@@ -30,7 +30,7 @@ func NewServer() *server {
 	}
 }
 
-func (s *server) Router() *router {
+func (s *server) Router() Routeing {
 	return s.router
 }
 
