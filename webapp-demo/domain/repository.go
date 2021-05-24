@@ -6,4 +6,5 @@ import (
 
 type UserAccountRepository interface {
 	Create(*model.UserAccountEntity) error
+	FindByEmail(*model.UserAccountEntity, string) error
 }

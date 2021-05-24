@@ -7,3 +7,8 @@ type RegisterUserAccountParam struct {
 	Password             string `json:"password"`
 	PasswordConfirmation string `json:"password_confirmation"`
 }
+
+type LoginUserAccountParam struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
