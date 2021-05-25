@@ -2,10 +2,15 @@ package rest
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"os"
+	"time"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/tabakazu/webapi-app/app"
 	"github.com/tabakazu/webapi-app/app/input"
+	"github.com/tabakazu/webapi-app/app/output"
 	"github.com/tabakazu/webapi-app/app/service"
 	"github.com/tabakazu/webapi-app/domain"
 )
@@ -60,7 +65,24 @@ func (ctrl userAccountController) LoginHandler(w http.ResponseWriter, r *http.Re
 		return
 	}
 
+	now := time.Now()
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"iat":     now.Unix(),
+		"exp":     now.Add(time.Hour * 24).Unix(),
+		"user_id": fmt.Sprintf("%d", data.ID),
+	})
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	res := output.LoginUserAccountResult{
+		Email: data.Email,
+		Token: tokenString,
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(res)
 }
