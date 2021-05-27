@@ -20,15 +20,16 @@ func main() {
 	jwtID := fmt.Sprintf("%x", md5.Sum([]byte(keyAndiat)))
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		// Claims https://tools.ietf.org/html/rfc7519#section-4
-		"iss":   "My Awesome Company Inc. or https://my.awesome.website/", // "iss" (Issuer)
-		"aud":   []string{"Young", "Old"},                                 // "aud" (Audience)
-		"sub":   "Subject",                                                // "sub" (Subject)
-		"iat":   time.Now().Unix(),                                        // "iat" (Issued At)
-		"nbf":   time.Date(2020, 01, 01, 12, 0, 0, 0, time.UTC).Unix(),    // "nbf" (Not Before)
-		"exp":   time.Now().Add(time.Hour * 24).Unix(),                    // "exp" (Expiration Time)
-		"jti":   jwtID,                                                    // "jti" (JWT ID)
-		"name":  "Taro Yamada",
-		"admin": false,
+		"iss":     "My Awesome Company Inc. or https://my.awesome.website/", // "iss" (Issuer)
+		"aud":     []string{"Young", "Old"},                                 // "aud" (Audience)
+		"sub":     "Subject",                                                // "sub" (Subject)
+		"iat":     time.Now().Unix(),                                        // "iat" (Issued At)
+		"nbf":     time.Date(2020, 01, 01, 12, 0, 0, 0, time.UTC).Unix(),    // "nbf" (Not Before)
+		"exp":     time.Now().Add(time.Hour * 24).Unix(),                    // "exp" (Expiration Time)
+		"jti":     jwtID,                                                    // "jti" (JWT ID)
+		"name":    "Taro Yamada",
+		"admin":   false,
+		"user_id": 1,
 	})
 
 	tokenString, err := token.SignedString(key)
@@ -47,8 +48,15 @@ func main() {
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		fmt.Println(claims["name"])
+		fmt.Println(claims["user_id"])
 		fmt.Println(claims["exp"])
 		fmt.Println(claims["jti"])
+
+		val, ok := claims["user_id"].(float64)
+		if ok {
+			fmt.Println(uint(val))
+		}
+
 	} else {
 		fmt.Println(err)
 	}

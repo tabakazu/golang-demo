@@ -1,9 +1,9 @@
-FROM golang:1.13-alpine
+FROM golang:1.16
 
 ENV GOPATH=/go
 ENV GO111MODULE=on
-RUN apk add --update --no-cache bash ca-certificates g++ gcc git mysql-client
 
+RUN apt-get update -qq && apt-get install -yq default-mysql-client
 ENV workdir /go/src/github.com/tabakazu
 RUN mkdir -p ${workdir}
 WORKDIR ${workdir}
