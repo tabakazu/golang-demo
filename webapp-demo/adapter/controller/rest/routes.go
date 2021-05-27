@@ -16,4 +16,5 @@ func SetupHealthCheckRoutes(r Routeing, ctrl HealthCheckController) {
 func SetupUserAccountRoutes(r Routeing, ctrl UserAccountController) {
 	r.POST("/user_account", ctrl.RegisterHandler)
 	r.POST("/user_account/login", ctrl.LoginHandler)
+	r.GET("/user_account", ctrl.ShowHandler)
 }

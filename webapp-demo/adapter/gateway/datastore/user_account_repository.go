@@ -37,6 +37,17 @@ func (r *userAccountRepository) Create(e *model.UserAccountEntity) error {
 	return nil
 }
 
+func (r *userAccountRepository) FindByID(e *model.UserAccountEntity, id uint) error {
+	if err := r.db.Get(e, `SELECT u.id, u.family_name, u.given_name, a.email, a.password_digest
+												 FROM users u
+												 JOIN accounts a ON a.user_id = u.id
+												 WHERE u.id = ?`, id); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *userAccountRepository) FindByEmail(e *model.UserAccountEntity, email string) error {
 	if err := r.db.Get(e, `SELECT u.id, u.family_name, u.given_name, a.email, a.password_digest
 												 FROM users u

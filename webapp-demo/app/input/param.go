@@ -12,3 +12,7 @@ type LoginUserAccountParam struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type ShowUserAccountParam struct {
+	ID uint `json:"id"`
+}

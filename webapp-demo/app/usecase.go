@@ -12,3 +12,7 @@ type RegisterUserAccountService interface {
 type LoginUserAccountService interface {
 	Execute(input.LoginUserAccountParam) (*model.UserAccountEntity, error)
 }
+
+type ShowUserAccountService interface {
+	Execute(input.ShowUserAccountParam) (*model.UserAccountEntity, error)
+}
