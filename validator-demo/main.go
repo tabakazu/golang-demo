@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 
+	"github.com/go-playground/locales/en"
+	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	en_translations "github.com/go-playground/validator/v10/translations/en"
 )
 
 type User struct {
@@ -25,8 +28,17 @@ func validateUser(u *User) {
 	validate := validator.New()
 	validate.RegisterValidation("unique", ValidateUserEmailUnique)
 
+	en := en.New()
+	uni := ut.New(en, en)
+	trans, _ := uni.GetTranslator("en")
+	en_translations.RegisterDefaultTranslations(validate, trans)
+
 	if err := validate.Struct(u); err != nil {
-		fmt.Println(err)
+		errs := err.(validator.ValidationErrors)
+
+		for _, e := range errs {
+			fmt.Println(e.Translate(trans))
+		}
 	}
 }
 
