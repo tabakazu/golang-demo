@@ -7,12 +7,12 @@ services:
       context: .
       target: build
     environment:
-      MYSQL_URL: 'root:@tcp(mysql:3306)/webapi_app_dev?charset=utf8&parseTime=True&loc=Local'
-      MYSQL_TEST_URL: 'root:@tcp(mysql:3306)/webapi_app_test?charset=utf8&parseTime=True&loc=Local'
+      MYSQL_URL: 'root:@tcp(mysql:3306)/webapp_dev?charset=utf8&parseTime=True&loc=Local'
+      MYSQL_TEST_URL: 'root:@tcp(mysql:3306)/webapp_test?charset=utf8&parseTime=True&loc=Local'
       GO111MODULE: 'on'
       GOPATH: /go
     volumes:
-      - .:/go/src/github.com/tabakazu/webapi-app
+      - .:/go/src/github.com/tabakazu/webapp
       - go_modules:/go/pkg/mod
     stdin_open: true
     tty: true
@@ -26,10 +26,20 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_DATABASE: webapi_app_dev
+      MYSQL_DATABASE: webapp_dev
     volumes:
       - mysql_data:/var/lib/mysql
 
+  db_migration:
+    <<: *go_app
+    command: bash -c "goose status"
+    volumes:
+      - ./.db-migration:/go/src/github.com/tabakazu/db-migration/db
+      - go_modules:/go/pkg/mod
+    build:
+      context: ./.db-migration
+    ports: []
+    
 volumes:
   go_modules:
   mysql_data:
